@@ -2,15 +2,13 @@
 
 namespace StudentSystem
 {
-    class Student
+    class Student : Person
     {
-        public string Name { get; }
 
         public List<int> Marks { get; }
 
-        public Student(string name)
+        public Student(string name, int age) : base(name, age)
         {
-            Name = name;
             Marks = new List<int>();
         }
 
@@ -22,12 +20,12 @@ namespace StudentSystem
 
         public double GetAverage() // вася смотри, что возращаещь
         {
+            if (Marks.Count == 0) throw new InvalidOperationException("Оценки отсутствуют.");
             double sum = 0.0;
             for (int i = 0; i < Marks.Count; i++)
             {
                 sum += Marks[i];
             }
-
             return sum / Marks.Count;
         }
         // локальные переменные с маленькой букввы бож
@@ -43,6 +41,21 @@ namespace StudentSystem
 
             return maxMark;
         }
+
+        public override void Introduce()
+        {
+            base.Introduce();
+
+            if (Marks.Count == 0) Console.WriteLine($"Оценки отсутствуют");
+
+            else
+            {
+                double averageMark = GetAverage();
+                Console.WriteLine($"Мой средний бал: {averageMark:F2}");
+            }
+        }
+
+        public override string GetRole() => "student";
 
     }
 }
